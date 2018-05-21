@@ -61,95 +61,95 @@ const PivotPath = {
 		 */
 		generate: function(basePath = ".") {
 				this.basePath = basePath;
-				return this;
-		},
-		/**
-		 * 
-		 * ----
-		 * 
-		 * ### `{PivotPath}.setBasePath(basePath)`
-		 * @type `{Function}`
-		 * @parameter `{String} basePath`. Required. Path from which all the others will start from.
-		 * @returns `{Object::PivotPath}`. A `{PivotPath}` fresh instance is returned.
-		 * @description Instantiates a new `{Object::PivotPath}` instance, using the provided path as basePath.
-		 * 
-		 */
-		setBasePath: function(basePath) {
-				this.basePath = basePath;
-				return this;
-		},
-		/**
-		 * 
-		 * ----
-		 * 
-		 * ### `{PivotPath}.get(subPath)`
-		 * @type `{Function}`
-		 * @parameter `{String} subPath`. Required. The subPath choosen.
-		 * @returns `{String}`. The path generated from the basePath and the subPath.
-		 * @description Generates and returns a new path from the union of the basePath and the subPath provided.
-		 */
-		get: function(subPath) {
-				return path.resolve(this.basePath, subPath.replace(/^\//g, ""));
-		},
-
-		/**
-		 * 
-		 * ----
-		 * 
-		 * ### `{PivotPath}.require(subPath)`
-		 * @type `{Function}`
-		 * @parameter `{String} subPath`. Required. The subPath choosen.
-		 * @returns `{Any}`. The module that is found at the path generated from the basePath and the subPath.
-		 * @description Generates a new path from the union of the basePath and the subPath provided and imports the module that is found at that new path.
-		 */
-		require: function(subPath) {
-				const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
-				const finalModule = require(finalPath);
-				return finalModule;
-		},
-
-		/**
-		 * 
-		 * ----
-		 * 
-		 * ### `{PivotPath}.call(subPath)`
-		 * @type `{Function}`
-		 * @parameter `{String} subPath`. Required. The subPath choosen.
-		 * @parameter `{Any} scope`. Optional. The scope of the call. By default: `null`.
-		 * @parameter `{Array<Any>} params`. Optional. The arguments of the call, as `{Array}`. By default: `[]`.
-		 * @returns `{Any}`. The result of the call of the module that is found at the path generated from the basePath and the subPath, 
-		 * receiving the parameters and applying the indicated scope.
-		 * @description Generates a new path from the union of the basePath and the subPath provided and imports the module that is found at that new path,
-		 * and afterwards, it calls it, prosupposing that the module imported is always a plain function. It applies the scope and passes the parameters 
-		 * provided automatically. Finally, it returns the result of that call.
-		 */
-		call: function(subPath, scope = null, params = []) {
-				const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
-				const finalModule = require(finalPath);
-				const finalResult = finalModule.apply(scope, params);
-				return finalResult;
-		},
-
-		/**
-		 * 
-		 * ----
-		 * 
-		 * ### `{PivotPath}.function(subPath)`
-		 * @type `{Function}`
-		 * @parameter `{String} subPath`. Required. The subPath choosen.
-		 * @parameter `{Any} scope`. Optional. The scope of the call. By default: `null`.
-		 * @parameter `{Array<Any>} params`. Optional. The arguments of the call that will be automatically prepended, as `{Array}`. By default: `[]`.
-		 * @returns `{Function}`. A function that imports the specified path, and calls to it using the scope provided and prepending the parameters provided.
-		 * @description Generates a new path from the union of the basePath and the subPath provided. Then, it returns a function that will import the specified path,
-		 * apply the provided scope and prepend the specified parameters, meanwhile it can receive any other parameters.
-		 */
-		function: function(subPath, scope = null, params = []) {
-				const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
-				const finalFunction = function() {
-						const finalModule = require(finalPath);
-						return finalModule.apply(scope, params.concat(Array.prototype.slice.call(arguments)));
+				/**
+				 * 
+				 * ----
+				 * 
+				 * ### `{PivotPath}.setBasePath(basePath)`
+				 * @type `{Function}`
+				 * @parameter `{String} basePath`. Required. Path from which all the others will start from.
+				 * @returns `{Object::PivotPath}`. A `{PivotPath}` fresh instance is returned.
+				 * @description Instantiates a new `{Object::PivotPath}` instance, using the provided path as basePath.
+				 * 
+				 */
+				this.setBasePath = function(basePath) {
+						this.basePath = basePath;
+						return this;
 				};
-				return finalFunction;
+				/**
+				 * 
+				 * ----
+				 * 
+				 * ### `{PivotPath}.get(subPath)`
+				 * @type `{Function}`
+				 * @parameter `{String} subPath`. Required. The subPath choosen.
+				 * @returns `{String}`. The path generated from the basePath and the subPath.
+				 * @description Generates and returns a new path from the union of the basePath and the subPath provided.
+				 */
+				this.get = function(subPath) {
+						return path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				};
+
+				/**
+				 * 
+				 * ----
+				 * 
+				 * ### `{PivotPath}.require(subPath)`
+				 * @type `{Function}`
+				 * @parameter `{String} subPath`. Required. The subPath choosen.
+				 * @returns `{Any}`. The module that is found at the path generated from the basePath and the subPath.
+				 * @description Generates a new path from the union of the basePath and the subPath provided and imports the module that is found at that new path.
+				 */
+				this.require = function(subPath) {
+						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+						const finalModule = require(finalPath);
+						return finalModule;
+				};
+
+				/**
+				 * 
+				 * ----
+				 * 
+				 * ### `{PivotPath}.call(subPath)`
+				 * @type `{Function}`
+				 * @parameter `{String} subPath`. Required. The subPath choosen.
+				 * @parameter `{Any} scope`. Optional. The scope of the call. By default: `null`.
+				 * @parameter `{Array<Any>} params`. Optional. The arguments of the call, as `{Array}`. By default: `[]`.
+				 * @returns `{Any}`. The result of the call of the module that is found at the path generated from the basePath and the subPath, 
+				 * receiving the parameters and applying the indicated scope.
+				 * @description Generates a new path from the union of the basePath and the subPath provided and imports the module that is found at that new path,
+				 * and afterwards, it calls it, prosupposing that the module imported is always a plain function. It applies the scope and passes the parameters 
+				 * provided automatically. Finally, it returns the result of that call.
+				 */
+				this.call = function(subPath, scope = null, params = []) {
+						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+						const finalModule = require(finalPath);
+						const finalResult = finalModule.apply(scope, params);
+						return finalResult;
+				};
+
+				/**
+				 * 
+				 * ----
+				 * 
+				 * ### `{PivotPath}.function(subPath)`
+				 * @type `{Function}`
+				 * @parameter `{String} subPath`. Required. The subPath choosen.
+				 * @parameter `{Any} scope`. Optional. The scope of the call. By default: `null`.
+				 * @parameter `{Array<Any>} params`. Optional. The arguments of the call that will be automatically prepended, as `{Array}`. By default: `[]`.
+				 * @returns `{Function}`. A function that imports the specified path, and calls to it using the scope provided and prepending the parameters provided.
+				 * @description Generates a new path from the union of the basePath and the subPath provided. Then, it returns a function that will import the specified path,
+				 * apply the provided scope and prepend the specified parameters, meanwhile it can receive any other parameters.
+				 */
+				this.function = function(subPath, scope = null, params = []) {
+						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+						const finalFunction = function() {
+								const finalModule = require(finalPath);
+								return finalModule.apply(scope, params.concat(Array.prototype.slice.call(arguments)));
+						};
+						return finalFunction;
+				};
+				return this;
 		}
 };
 
