@@ -1,0 +1,34 @@
+{
+  "name": "pivotpath",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "docs": "javadoc -i docs/README.ini.md src/pivotpath.js docs/README.end.md -f markdown -o README.md",
+    "test": "node test/pivotpath.spec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Node.js module to easily create composed paths. It can:",
+  "devDependencies": {
+    "assertivity": "^1.0.3",
+    "javadoc": "^1.0.3",
+    "nyc": "^11.8.0"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allnulled/pivotpath.git"
+  },
+  "keywords": [
+    "pivot",
+    "path"
+  ],
+  "bugs": {
+    "url": "https://github.com/allnulled/pivotpath/issues"
+  },
+  "homepage": "https://github.com/allnulled/pivotpath#readme"
+}
