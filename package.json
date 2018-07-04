@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "main": "src/pivotpath.js",
   "scripts": {
-    "docs": "javadoc -i docs/README.ini.md src/pivotpath.js docs/README.end.md -f markdown -o README.md",
+    "docs": "javadoc -i src/pivotpath.js -o README.md -f markdown",
     "test": "node test/pivotpath.spec.js"
   },
   "author": "",
@@ -23,10 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/allnulled/pivotpath.git"
   },
-  "keywords": [
-    "pivot",
-    "path"
-  ],
+  "keywords": ["pivot", "path"],
   "bugs": {
     "url": "https://github.com/allnulled/pivotpath/issues"
   },

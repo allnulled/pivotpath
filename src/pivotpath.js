@@ -1,5 +1,30 @@
 /**
  *
+ * # pivotpath
+ *
+ * ![](https://img.shields.io/badge/pivotpath-v1.0.2-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/stable-95%25-green.svg)
+ *
+ * Node.js module to easily create composed paths. It can:
+ *
+ *   · Generate new paths (as strings).
+ *
+ *   · Import modules from new paths (as `require(~)` would normally do).
+ *
+ *   · Call to pure functional modules from new paths (as `require(~)(~)` would normally do).
+ *
+ *   · Generate functions that call to pure functional modules from new paths. This is useful for 
+ * ExpressJS middlewares or controllers, for example, as they can be imported directly by a string,
+ * while this module takes care of generating and passing the proper parameters. See the examples to
+ * easily catch the idea.
+ *
+ * ## 1. Installation
+ *
+ * `~$ npm install --save pivotpath`
+ *
+ */
+
+/**
+ *
  * ## 2. Usage
  *
  * This is a full demonstration of the module:
@@ -56,8 +81,8 @@ const PivotPath = {
 		 * ### `PivotPath.generate(basePath=".")`
 		 * @type `{Function}`
 		 * @parameter `{String} basePath`. Optional. Path from which all the others will start from. By default: `"."`.
-		 * @returns `{Object::PivotPath}`. A `{PivotPath}` fresh instance is returned.
-		 * @description Instantiates a new `{Object::PivotPath}` instance, using the provided path as basePath.
+		 * @returns `{PivotPath}`. A `{PivotPath}` fresh instance is returned.
+		 * @description Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
 		 */
 		generate: function(basePath = ".") {
 				this.basePath = basePath;
@@ -68,8 +93,8 @@ const PivotPath = {
 				 * ### `{PivotPath}.setBasePath(basePath)`
 				 * @type `{Function}`
 				 * @parameter `{String} basePath`. Required. Path from which all the others will start from.
-				 * @returns `{Object::PivotPath}`. A `{PivotPath}` fresh instance is returned.
-				 * @description Instantiates a new `{Object::PivotPath}` instance, using the provided path as basePath.
+				 * @returns `{PivotPath}`. A `{PivotPath}` fresh instance is returned.
+				 * @description Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
 				 * 
 				 */
 				this.setBasePath = function(basePath) {
@@ -153,6 +178,23 @@ const PivotPath = {
 		}
 };
 
-
-
 module.exports = PivotPath;
+
+/**
+ *
+ * ## 4. Tests
+ * 
+ * To run the tests, you only need to place your command-line at the path of the module, and type:
+ *
+ * `~$ npm install && npm run test`
+ *
+ * Then, you should see the tests passing.
+ * 
+ * 
+ * ## 5. Conclusion
+ * 
+ * Very simple module, but can be useful for shortening some repetitive codes, and improve easily
+ * the readability of your code.
+ * 
+ * 
+ */

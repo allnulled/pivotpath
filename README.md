@@ -92,9 +92,9 @@ app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new cont
 
 **Parameter:** `{String} basePath`. Optional. Path from which all the others will start from. By default: `"."`.
 
-**Returns:** `{Object::PivotPath}`. A `{PivotPath}` fresh instance is returned.
+**Returns:** `{PivotPath}`. A `{PivotPath}` fresh instance is returned.
 
-**Description:** Instantiates a new `{Object::PivotPath}` instance, using the provided path as basePath.
+**Description:** Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
 
 
 
@@ -109,9 +109,9 @@ app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new cont
 
 **Parameter:** `{String} basePath`. Required. Path from which all the others will start from.
 
-**Returns:** `{Object::PivotPath}`. A `{PivotPath}` fresh instance is returned.
+**Returns:** `{PivotPath}`. A `{PivotPath}` fresh instance is returned.
 
-**Description:** Instantiates a new `{Object::PivotPath}` instance, using the provided path as basePath.
+**Description:** Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
 
 
 
@@ -217,4 +217,3 @@ the readability of your code.
 
 
 
-# Read this file
