@@ -1,7 +1,7 @@
 {
   "name": "pivotpath",
   "version": "1.0.2",
-  "main": "index.js",
+  "main": "src/pivotpath.js",
   "scripts": {
     "docs": "javadoc -i docs/README.ini.md src/pivotpath.js docs/README.end.md -f markdown -o README.md",
     "test": "node test/pivotpath.spec.js"
