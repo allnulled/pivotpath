@@ -103,7 +103,7 @@ app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new cont
 
 ----
 
-### `{PivotPath}.setBasePath(basePath)`
+### `PivotPath#setBasePath(basePath)`
 
 **Type:** `{Function}`
 
@@ -121,7 +121,7 @@ app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new cont
 
 ----
 
-### `{PivotPath}.get(subPath)`
+### `PivotPath#get(subPath)`
 
 **Type:** `{Function}`
 
@@ -138,7 +138,7 @@ app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new cont
 
 ----
 
-### `{PivotPath}.require(subPath)`
+### `PivotPath#require(subPath)`
 
 **Type:** `{Function}`
 
@@ -155,7 +155,24 @@ app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new cont
 
 ----
 
-### `{PivotPath}.call(subPath)`
+### `PivotPath#requireNewly(subPath)`
+
+**Type:** `{Function}`
+
+**Parameter:** `{String} subPath`. Required. The subPath choosen.
+
+**Returns:** `{Any}`. The module that is found at the path generated from the basePath and the subPath.
+
+**Description:** This method does the same as the `PivotPath#require(...)` method, but it clears the cache of the module before requiring it.
+
+
+
+ 
+
+
+----
+
+### `PivotPath#call(subPath)`
 
 **Type:** `{Function}`
 
@@ -179,7 +196,29 @@ provided automatically. Finally, it returns the result of that call.
 
 ----
 
-### `{PivotPath}.function(subPath)`
+### `PivotPath#callNewly(subPath)`
+
+**Type:** `{Function}`
+
+**Parameter:** `{String} subPath`. Required. The subPath choosen.
+
+**Parameter:** `{Any} scope`. Optional. The scope of the call. By default: `null`.
+
+**Parameter:** `{Array<Any>} params`. Optional. The arguments of the call, as `{Array}`. By default: `[]`.
+
+**Returns:** `{Any}`. The result of the call of the module that is found at the path generated from the basePath and the subPath, 
+receiving the parameters and applying the indicated scope.
+
+**Description:** This method does the same as the `PivotPath#call(...)` method, but it clears the cache of the module before requiring it.
+
+
+
+ 
+
+
+----
+
+### `PivotPath#function(subPath)`
 
 **Type:** `{Function}`
 
@@ -192,20 +231,57 @@ provided automatically. Finally, it returns the result of that call.
 **Returns:** `{Function}`. A function that imports the specified path, and calls to it using the scope provided and prepending the parameters provided.
 
 **Description:** Generates a new path from the union of the basePath and the subPath provided. Then, it returns a function that will import the specified path,
-apply the provided scope and prepend the specified parameters, meanwhile it can receive any other parameters.
+apply the provided scope and prepend the specified parameters, meanwhile it can receive any other parameters. Note that, if you understood well how this 
+method works, you understand that this method will only work well when the module that is being required is a function itself.
 
 
 
  
 
 
-## 4. Tests
+----
 
-To run the tests, you only need to place your command-line at the path of the module, and type:
+### `PivotPath#functionNewly(subPath)`
 
-`~$ npm install && npm run test`
+**Type:** `{Function}`
 
-Then, you should see the tests passing.
+**Parameter:** `{String} subPath`. Required. The subPath choosen.
+
+**Parameter:** `{Any} scope`. Optional. The scope of the call. By default: `null`.
+
+**Parameter:** `{Array<Any>} params`. Optional. The arguments of the call that will be automatically prepended, as `{Array}`. By default: `[]`.
+
+**Returns:** `{Function}`. A function that imports the specified path, and calls to it using the scope provided and prepending the parameters provided.
+
+**Description:** This method does the same as the `PivotPath#function(...)` method, but it clears the cache of the module before requiring it.
+
+
+
+ 
+
+
+## 4. Commands (npm run *)
+
+To build the project:
+
+~$ `npm run build`
+
+To pass the tests:
+
+~$ `npm run test`
+
+To pass the tests and generate the coverage reports:
+
+~$ `npm run coverage`
+
+To clean regenerable directories:
+
+~$ `npm run clean`
+
+To generate the documentation from Javadoc comments:
+
+~$ `npm run docs`
+
 
 
 ## 5. Conclusion
