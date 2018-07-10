@@ -3,7 +3,7 @@
 
 # pivotpath
 
-![](https://img.shields.io/badge/pivotpath-v1.0.2-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/stable-95%25-green.svg)
+![](https://img.shields.io/badge/pivotpath-v1.1.0-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-100%25-green.svg) ![](https://img.shields.io/badge/stable-100%25-green.svg)
 
 Node.js module to easily create composed paths. It can:
 
@@ -262,7 +262,7 @@ method works, you understand that this method will only work well when the modul
 
 ## 4. Commands (npm run *)
 
-To build the project:
+To build the project (clean and install dependencies):
 
 ~$ `npm run build`
 
