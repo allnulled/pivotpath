@@ -1,5 +1,4 @@
 var { expect, assert } = require("chai");
-var { report } = require("assertivity").generate();
 var fs = require("fs-extra");
 var path = require("path");
 
