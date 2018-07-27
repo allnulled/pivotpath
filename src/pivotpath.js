@@ -74,7 +74,7 @@ const requireNewly = require("require-newly");
  * @type `{Object}`
  * @description The API of the module starts is inside this object.
  */
-const PivotPath = {
+class PivotPath {
 		/**
 		 * 
 		 * ----
@@ -85,8 +85,9 @@ const PivotPath = {
 		 * @returns `{PivotPath}`. A `{PivotPath}` fresh instance is returned.
 		 * @description Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
 		 */
-		generate: function(basePath = ".") {
-				this.basePath = path.resolve(basePath);
+		static generate(basePath = ".") {
+				const it = new PivotPath();
+				it.basePath = path.resolve(basePath);
 				/**
 				 * 
 				 * ----
@@ -98,9 +99,9 @@ const PivotPath = {
 				 * @description Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
 				 * 
 				 */
-				this.setBasePath = function(basePath) {
-						this.basePath = basePath;
-						return this;
+				it.setBasePath = function(basePath) {
+						it.basePath = basePath;
+						return it;
 				};
 				/**
 				 * 
@@ -112,8 +113,8 @@ const PivotPath = {
 				 * @returns `{String}`. The path generated from the basePath and the subPath.
 				 * @description Generates and returns a new path from the union of the basePath and the subPath provided.
 				 */
-				this.get = function(subPath = "") {
-						return path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.get = function(subPath = "") {
+						return path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 				};
 
 				/**
@@ -126,8 +127,8 @@ const PivotPath = {
 				 * @returns `{Any}`. The module that is found at the path generated from the basePath and the subPath.
 				 * @description Generates a new path from the union of the basePath and the subPath provided and imports the module that is found at that new path.
 				 */
-				this.require = function(subPath) {
-						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.require = function(subPath) {
+						const finalPath = path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 						const finalModule = require(finalPath);
 						return finalModule;
 				};
@@ -142,8 +143,8 @@ const PivotPath = {
 				 * @returns `{Any}`. The module that is found at the path generated from the basePath and the subPath.
 				 * @description This method does the same as the `PivotPath#require(...)` method, but it clears the cache of the module before requiring it.
 				 */
-				this.requireNewly = function(subPath) {
-						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.requireNewly = function(subPath) {
+						const finalPath = path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 						const finalModule = requireNewly(finalPath);
 						return finalModule;
 				};
@@ -163,8 +164,8 @@ const PivotPath = {
 				 * and afterwards, it calls it, prosupposing that the module imported is always a plain function. It applies the scope and passes the parameters 
 				 * provided automatically. Finally, it returns the result of that call.
 				 */
-				this.call = function(subPath, scope = null, params = []) {
-						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.call = function(subPath, scope = null, params = []) {
+						const finalPath = path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 						const finalModule = require(finalPath);
 						const finalResult = finalModule.apply(scope, params);
 						return finalResult;
@@ -183,8 +184,8 @@ const PivotPath = {
 				 * receiving the parameters and applying the indicated scope.
 				 * @description This method does the same as the `PivotPath#call(...)` method, but it clears the cache of the module before requiring it.
 				 */
-				this.callNewly = function(subPath, scope = null, params = []) {
-						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.callNewly = function(subPath, scope = null, params = []) {
+						const finalPath = path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 						const finalModule = requireNewly(finalPath);
 						const finalResult = finalModule.apply(scope, params);
 						return finalResult;
@@ -204,8 +205,8 @@ const PivotPath = {
 				 * apply the provided scope and prepend the specified parameters, meanwhile it can receive any other parameters. Note that, if you understood well how this 
 				 * method works, you understand that this method will only work well when the module that is being required is a function itself.
 				 */
-				this.function = function(subPath, scope = null, params = []) {
-						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.function = function(subPath, scope = null, params = []) {
+						const finalPath = path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 						return function() {
 								const finalModule = require(finalPath);
 								return finalModule.apply(scope, params.concat(Array.prototype.slice.call(arguments)));
@@ -224,15 +225,15 @@ const PivotPath = {
 				 * @returns `{Function}`. A function that imports the specified path, and calls to it using the scope provided and prepending the parameters provided.
 				 * @description This method does the same as the `PivotPath#function(...)` method, but it clears the cache of the module before requiring it.
 				 */
-				this.functionNewly = function(subPath, scope = null, params = []) {
-						const finalPath = path.resolve(this.basePath, subPath.replace(/^\//g, ""));
+				it.functionNewly = function(subPath, scope = null, params = []) {
+						const finalPath = path.resolve(it.basePath, subPath.replace(/^\//g, ""));
 						return function() {
 								const finalModule = requireNewly(finalPath);
 								return finalModule.apply(scope, params.concat(Array.prototype.slice.call(arguments)));
 						};
 				};
 
-				return this;
+				return it;
 		}
 };
 

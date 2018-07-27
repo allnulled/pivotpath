@@ -74,7 +74,7 @@ describe("PivotPath API", function() {
   it("returns the module expected", function(done) {
   	this.timeout(8000);
     PivotPath = require(__dirname + "/../src/pivotpath.js");
-    expect(typeof PivotPath).to.equal("object");
+    expect(typeof PivotPath).to.equal("function");
     expect("generate" in PivotPath).to.equal(true);
     expect(typeof PivotPath.generate).to.equal("function");
     done();
