@@ -1,6 +1,6 @@
 {
   "name": "pivotpath",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "src/pivotpath.js",
   "scripts": {
     "clean": "./node_modules/.bin/rimraf tmp coverage .nyc_output node_modules",
