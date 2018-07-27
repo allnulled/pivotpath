@@ -2,7 +2,7 @@
  *
  * # pivotpath
  *
- * ![](https://img.shields.io/badge/pivotpath-v1.1.1-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-100%25-green.svg) ![](https://img.shields.io/badge/stable-100%25-green.svg)
+ * ![](https://img.shields.io/badge/pivotpath-v1.1.2-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-100%25-green.svg) ![](https://img.shields.io/badge/stable-100%25-green.svg)
  *
  * Node.js module to easily create composed paths. It can:
  *
@@ -30,30 +30,49 @@
  * This is a full demonstration of the module:
  *
  * ```js
+ * ////////
+ * //////
+ * ////
+ * // Intro) Generate a new PivotPath instance
  * const myPivot = require("pivotpath").generate(__dirname + "/my/folder/with/subPaths");
  * 
+ * ////////
+ * //////
+ * ////
  * // a) Generate new paths:
  * 
  * const myControllerPath = myPivot.get("/controllers/myController.js");
  * const myMiddlewarePath = myPivot.get("/middlewares/myMiddleware.js");
  * 
+ * ////////
+ * //////
+ * ////
  * // b) Import modules from new paths:
  * 
  * const myController = myPivot.require("/controllers/myController.js");
  * const myMiddleware = myPivot.require("/middlewares/myMiddleware.js");
+ * // alternatively, you could use: myPivot.requireNewly(...) [to clear cache everytime it is executed]
  * 
+ * ////////
+ * //////
+ * ////
  * // c) Call to pure functional modules from new paths:
  * 
  * const myData = myPivot.call("/functions/myFunction.js", {scope:true}, ["Param-1", "Param-2", "Param-3"]);
  * const myOtherData = myPivot.call("/functions/myOtherFunction.js", global, [1,2,3]);
+ * // alternatively, you could use: myPivot.callNewly(...) [to clear cache everytime it is executed]
  * 
+ * ////////
+ * //////
+ * ////
  * // d) Generate functions that call to pure functional moduoles from new paths:
  * 
  * const app = require("express")(); // This would be a new ExpressJS application.
  * app.get("/", myPivot.function("/controllers/main.js")); // Adds a new controller
  * app.get("/contact", myPivot.function("/controllers/contact.js")); // Adds a new controller
  * app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new controller
- * // ...
+ * // alternatively, you could use: myPivot.functionNewly(...) [to clear cache everytime it is executed]
+ * 
  * ```
  * 
  * ## 3. API Reference
@@ -71,7 +90,7 @@ const requireNewly = require("require-newly");
  * 
  * ### `PivotPath`
  * @from `require("pivotpath")`
- * @type `{Object}`
+ * @type `{Class}`
  * @description The API of the module starts is inside this object.
  */
 class PivotPath {
@@ -80,7 +99,8 @@ class PivotPath {
 		 * ----
 		 * 
 		 * ### `PivotPath.generate(basePath=".")`
-		 * @type `{Function}`
+		 * @access `{Static}`
+		 * @type `{Class method}`
 		 * @parameter `{String} basePath`. Optional. Path from which all the others will start from. By default: `"."`.
 		 * @returns `{PivotPath}`. A `{PivotPath}` fresh instance is returned.
 		 * @description Instantiates a new `{PivotPath}` instance, using the provided path as basePath.
