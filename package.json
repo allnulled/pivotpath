@@ -68,5 +68,5 @@
     "docs": "javadoc -i src/pivotpath.js -o README.md -f markdown",
     "test": "mocha test/pivotpath.spec.js"
   },
-  "version": "1.1.2"
+  "version": "1.1.3"
 }
