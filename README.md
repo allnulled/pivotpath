@@ -68,13 +68,22 @@ const myOtherData = myPivot.call("/functions/myOtherFunction.js", global, [1,2,3
 ////////
 //////
 ////
-// d) Generate functions that call to pure functional moduoles from new paths:
+// d) Generate functions that call to pure functional modules from new paths:
 
 const app = require("express")(); // This would be a new ExpressJS application.
 app.get("/", myPivot.function("/controllers/main.js")); // Adds a new controller
 app.get("/contact", myPivot.function("/controllers/contact.js")); // Adds a new controller
 app.get("/about", myPivot.function("/controllers/about.js")); // Adds a new controller
 // alternatively, you could use: myPivot.functionNewly(...) [to clear cache everytime it is executed]
+
+////////
+//////
+////
+// e) Generate functions through factory function from new paths:
+
+const specialFunction = myPivot.factory("/factories/sumAndMultiply.js", 5, 10); // 5 + 10
+const result = specialFunction(3, 2); // (5 + 10) * 3 * 2 = 15 * 3 * 2 = 45 * 2 = 90
+// alternatuvely, you could use: myPivot.factoryNewly(...) [to clear cache of the factory file everytime the generated function is executed]
 
 ```
 
@@ -281,6 +290,68 @@ method works, you understand that this method will only work well when the modul
  
 
 
+----
+
+### `PivotPath#factory(subPath, ...params)`
+
+**Type:** `{Function}`
+
+**Parameter:** `{String} subPath`. Required. The subPath choosen. This path must point to a file that returns as module a factory function of a [possibly externally contextualized] function.
+What this file must have as code is something like this:
+```js
+module.exports = function(...factoryArguments) {
+ return function(...functionArguments) {
+   // Content of the returned function.
+ };
+};
+```
+See the description to see what this method is exactly supposed to do.
+
+**Parameters:** `{...Any} params`. Optional. The arguments for the factory.
+
+**Returns:** `{Function}`. A function that is generated through a **factory** function, but keeping the context and arguments of the generated function separated from the arguments of the factory function.
+
+**Description:** This method:
+ - Generates a function that has independent arguments and context.
+ - Generates a function through another factory function, which also has its own arguments (the context is, though, undefined).
+ - Generates a function through an external module (which has this factory function, which, in turn, returns the final function).
+It may sound a bit confusing, but it is simple:
+ - A function that, with some parameters, generates a function that, with some arguments and context, does something.
+
+
+
+
+ 
+
+
+----
+
+### `PivotPath#factoryNewly(subPath, ...params)`
+
+**Type:** `{Function}`
+
+**Parameter:** `{String} subPath`. Required. The subPath choosen. This path must point to a file that returns as module a factory function of a [possibly externally contextualized] function.
+What this file must have as code is something like this:
+```js
+module.exports = function(...factoryArguments) {
+ return function(...functionArguments) {
+   // Content of the returned function.
+ };
+};
+```
+See the description to see what this method is exactly supposed to do.
+
+**Parameters:** `{...Any} params`. Optional. The arguments for the factory.
+
+**Returns:** `{Function}`. A function that is generated through a **factory** function, but keeping the context and arguments of the generated function independent of the factory arguments.
+
+**Description:** This method does the same thing as `factory` method, but clearing the cache before.
+
+
+
+ 
+
+
 ## 4. Commands (npm run *)
 
 To build the project (clean and install dependencies):
@@ -314,5 +385,3 @@ the readability of your code.
 
 
 
-# Read this file
-# Read this file

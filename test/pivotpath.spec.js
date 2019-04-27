@@ -38,14 +38,42 @@ describe("PivotPath API", function() {
 			};
 	};`;
 
+	const factoryCode = `module.exports = function(...factoryArgs) {
+		return function(...functionArgs) {
+			var result = 0;
+			for(var i=0; i < factoryArgs.length; i++) {
+				result += factoryArgs[i];
+			}
+			for(var i=0; i < functionArgs.length; i++) {
+				result *= functionArgs[i];
+			}
+			return result;
+		};
+	};`;
+	
+	const factoryCodeModified = `module.exports = function(...factoryArgs) {
+		return function(...functionArgs) {
+			var result = 0;
+			for(var i=0; i < factoryArgs.length; i++) {
+				result += factoryArgs[i];
+			}
+			for(var i=0; i < functionArgs.length; i++) {
+				result += functionArgs[i];
+			}
+			return result;
+		};
+	};`;
+
 	const resetFiles = function() {
 		fs.outputFileSync(__dirname + "/my/folder/with/subpaths/controllers/myController.js", controllerCode, "utf8");
 		fs.outputFileSync(__dirname + "/my/folder/with/subpaths/middlewares/myMiddleware.js", middlewareCode, "utf8");
+		fs.outputFileSync(__dirname + "/my/folder/with/subpaths/factories/myFactory.js", factoryCode, "utf8");
 	};
 
 	const modifyFiles = function() {
 		fs.outputFileSync(__dirname + "/my/folder/with/subpaths/controllers/myController.js", controllerCodeModified, "utf8");
 		fs.outputFileSync(__dirname + "/my/folder/with/subpaths/middlewares/myMiddleware.js", middlewareCodeModified, "utf8");
+		fs.outputFileSync(__dirname + "/my/folder/with/subpaths/factories/myFactory.js", factoryCodeModified, "utf8");
 	};
 
   var PivotPath;
@@ -216,6 +244,38 @@ describe("PivotPath API", function() {
   	const pivot2 = PivotPath.generate(__dirname);
   	expect(pivot2.get()).to.equal(__dirname);
 		done();
+  });
+
+  it("works for pivot.factory(file, ...args)", function(done) {
+  	this.timeout(10000);
+  	resetFiles();
+  	const PivotPath = require(__dirname + "/../src/pivotpath.js");
+  	const pivot = PivotPath.generate(__dirname + "/my/folder/with/subpaths");
+  	const factory1 = pivot.factory("/factories/myFactory.js", 2, 3); // 0 + 2 + 3 = 5
+  	const result1 = factory1(4, 5); // 5 * 4 * 5 = 100
+  	expect(result1).to.equal(100);
+  	modifyFiles();
+  	// As the file is cached, the operations will still be, first, +, and second, *:
+  	const factory2 = pivot.factory("/factories/myFactory.js", 3, 4); // 0 + 3 + 4 = 7
+  	const result2 = factory2(5, 6); // 7 * 5 * 6 = 210
+  	expect(result2).to.equal(210);
+  	done();
+  });
+
+  it("works for pivot.factoryNewly(file, ...args)", function(done) {
+  	this.timeout(10000);
+  	resetFiles();
+  	const PivotPath = require(__dirname + "/../src/pivotpath.js");
+  	const pivot = PivotPath.generate(__dirname + "/my/folder/with/subpaths");
+  	const factory1 = pivot.factoryNewly("/factories/myFactory.js", 2, 3); // 0 + 2 + 3 = 5
+  	const result1 = factory1(4, 5); // 5 * 4 * 5 = 100
+  	expect(result1).to.equal(100);
+  	modifyFiles();
+  	// As the file is not cached, the operations will now be, first, +, and second, + again:
+  	const factory2 = pivot.factoryNewly("/factories/myFactory.js", 3, 4); // 0 + 3 + 4 = 7
+  	const result2 = factory2(5, 6); // 7 + 5 + 6 = 18
+  	expect(result2).to.equal(18);
+  	done();
   });
 
 });
